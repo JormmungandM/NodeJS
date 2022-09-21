@@ -6,7 +6,8 @@
 // destroyed
 // Використати їх у коді для роботи з WritableStream
 
-
+const fs = require('fs');                       // модуль для работы с файлами
+const path = "../18.09/temp.txt";               // путь к файлу
 const writable = fs.createWriteStream(path);    // создаем пишущий поток
 
 writable.setDefaultEncoding("utf8");    // setDefaultEncoding() используется для сброса кодировки по умолчанию для записываемого потока
@@ -22,9 +23,9 @@ console.log(writable.destroyed);        // destroyed - Это свойство �
 var ConsoleWrite = (str = "\0",buff = "\0") => {process.stdout.write(str + buff.toString())};
 
 
-const buff = Buffer.alloc(8);  
-buff.write("string12");         
-ConsoleWrite("some string", buff);
+const buff = Buffer.alloc(1024);    // Создаем буфер размером на 1024 символа
+buff.write("some buffer");          // Добавляем текст 
+ConsoleWrite("some string", buff);  // Вызываем нашу функцию и передаем ей данные
 
 
 
