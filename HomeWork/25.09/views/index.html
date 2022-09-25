@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <title>Home page</title>
+  </head>
+  <body>
+    <div class="row">
+        <form class="col s12" action="/create" method="get" >
+            <div style="text-align: center; margin: 10% 40% 0 40%; border: 1px solid white; border-radius: 10px; padding: 20px; background-color: white;">
+                <input name="login" placeholder="Login" id="log" type="text" class="validate">
+                <input name="password" placeholder="Password" id="pasw" type="password" class="validate">
+                <button style= "margin-top: 20px;" class="btn waves-effect waves-light" type="submit" name="action">Submit</button> 
+            </div>
+        </form>
+      </div>
+</body>
+</html>
+
