@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <title>Home page</title>
+  </head>
+  <body>
+      <div class="row">
+        <form class="col s12" action="fileUpload" method="post" enctype="multipart/form-data">
+            <div style="text-align: center; margin: 5% 40% 0 40%; border: 1px solid white; border-radius: 10px; padding: 20px; background-color: white;">
+                <div class="file-field input-field">
+                    <div class="btn">
+                      <span>File</span>
+                      <input type="file" name="fileToUpload">
+                    </div>
+                    <div class="file-path-wrapper">
+                      <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                    </div>
+                  </div>
+                <button style= "margin-top: 10px;" class="btn waves-effect waves-light" type="submit" name="action" >Send</button> 
+            </div>
+          </form>
+      </div>
+</body>
+</html>
+
