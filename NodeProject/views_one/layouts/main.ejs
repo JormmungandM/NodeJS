@@ -1,0 +1,7 @@
+<%- include('../partials/head') -%> <%- include('../partials/nav') -%> <%
+if(username) {%>
+<h2>Hello <%= username%></h2>
+<a href="/logout">Logout</a>
+<%}%>
+<section><%- body -%></section>
+<%- include('../partials/foot') -%>

@@ -1,0 +1,67 @@
+<% layout('layouts/main') -%>
+<div class="container w-25 m-auto">
+  <form action="/register" method="POST">
+    <div class="form-group">
+      <label for="exampleInputName">Name</label>
+      <input
+        type="text"
+        name="name"
+        class="form-control"
+        id="exampleInputName"
+        placeholder="Enter name"
+      />
+      <label for="exampleInputName">Surname</label>
+      <input
+        type="text"
+        name="surname"
+        class="form-control"
+        id="exampleInputSurName"
+        placeholder="Enter surname"
+      />
+      <label for="exampleInputLogin">Login</label>
+      <input
+        type="text"
+        name="login"
+        class="form-control"
+        id="exampleInputLogin"
+        placeholder="Enter login"
+      />
+      <label for="exampleInputEmail1">Email address</label>
+      <input
+        type="email"
+        class="form-control"
+        id="exampleInputEmail1"
+        aria-describedby="emailHelp"
+        placeholder="Enter email"
+      />
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input
+        name="password"
+        type="password"
+        class="form-control"
+        id="exampleInputPassword1"
+        placeholder="Password"
+      />
+      <label for="exampleInputPassword1">Repeat Password</label>
+      <input
+        name="repeat_password"
+        type="password"
+        class="form-control"
+        id="exampleInputPassword2"
+        placeholder="Repeat Password"
+      />
+    </div>
+    <div class="form-check">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="exampleCheck1"
+        name="is_remember"
+      />
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
