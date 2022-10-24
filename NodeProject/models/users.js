@@ -18,4 +18,5 @@ const users = [
     email: "john@gmail.com",
   },
 ];
+
 export default users;

@@ -5,6 +5,7 @@ import router from "./routes/routes.js";
 import ejsMate from "ejs-mate";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import cookieSession from "cookie-session";
 import { config } from "./config/config.js";
 
 //импортируем библиотеки для работы socket.io

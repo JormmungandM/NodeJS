@@ -10,6 +10,8 @@ import count from "../app.js";
 
 const __dirname = path.resolve();
 const router = Router();
+let selectNews = news; // сохраняем массив с новостями
+
 
 router.use(methodOverride("X-HTTP-Method")); //          Microsoft
 router.use(methodOverride("X-HTTP-Method-Override")); // Google/GData
@@ -31,11 +33,9 @@ router
   .route("/")
   .get((req, res) => {
     //res.sendFile(path.resolve(__dirname, "views", "index.html"));
-    let username = undefined;
-
     res.render("index.ejs", {
       title: "My Express (ejs)",
-      news: news,
+      news: selectNews,
       counter: " " + count, // активные пользователи
       username: req.signedCookies.username,
     });
@@ -52,58 +52,69 @@ router
     res.render("handlebars.hbs", {
       message: "This is HandleBars",
       username: req.signedCookies.username,
+      counter: " " + count, // активные пользователи
+    });
+  })
+
+  //add pug1 to nav menu set title and message
+  router
+  .route("/firstPug")
+  .get((req,res, next)  => {
+    res.render("pug/firstPug.pug", {
+      message: "This is first pug",
+      username: req.signedCookies.username,
+      counter: " " + count, // активные пользователи
+    });
+  })
+
+  //add pug2 to nav menu set title and message
+  router
+  .route("/secondPug")
+  .get((req,res, next)  => {
+    res.render("pug/secondPug.pug", {
+      message: "This is second pug",
+      username: req.signedCookies.username,
+      counter: " " + count, // активные пользователи
     });
   })
 
 
-router
-  .route("/news")
+
+router.route("/news")
   .get((req, res) => {
     res.render("news.ejs", {
       title: "News",
-      news: news,
+      news: selectNews,
       username: req.signedCookies.username,
+      counter: " " + count, // активные пользователи
     });
   })
+
+  router.route("/news/search")
   .post((req, res) => {
-    let biggest;
-    if (news.length !== 0) {
-      biggest = news.reduce((prev, current) =>
-        prev.id > current.id ? prev : current
-      );
-    }
-    news.push({
-      id: biggest ? biggest.id + 1 : 1,
-      title: req.body.title,
-      text: req.body.text,
-    });
-    res.redirect("/");
+    const fNews = req.body;   // получаем данные с сайта
+    selectNews = []    // создаем массив
+    news.find(item => {       // реализуем поиск по полученным данным 
+        if(item.title.toLowerCase().indexOf(fNews.fNews.toLowerCase()) != -1)   // изменяем регистр в нижний и проводим поиск совпадений 
+        {                                                                       // если нашло то добавляем в массив 
+          selectNews.push(item);
+        }            
+      })
+    res.redirect("/news")
   });
 
-router
-  .route("/news/:id")
-  .get((req, res) => {
-    console.log("TEST");
-    let obj = news.find((el) => el.id === parseInt(req.params.id));
-    res.send(obj);
-  })
-  .delete((req, res) => {
-    let obj = news.find((el) => el.id === parseInt(req.params.id));
-    if (obj) {
-      let i = news.indexOf(obj);
-      news.splice(i, 1);
-    }
-    res.redirect("/");
-  })
-  .put((req, res) => {
-    let obj = news.find((el) => el.id === parseInt(req.params.id));
-    if (obj) {
-      const { title, text } = req.body;
-      obj.title = title;
-      obj.text = text;
-    }
-    res.redirect("/");
+  function byField(field) {
+    return (a, b) => a[field] > b[field] ? 1 : -1;
+  }
+
+  
+  // Сортировка массива по title
+  router.route("/news/sort")
+  .post((req, res) => {
+    news.sort(byField('title')) //сортировка по title
+    res.redirect("/news");
   });
+
 
 router
   .route("/register")
@@ -111,12 +122,15 @@ router
     res.render("register", {
       title: "Регистрация",
       username: req.signedCookies.username,
+      counter: " " + count, // активные пользователи
     });
   })
   .post(add_user, (req, res) => {
-    res.render("index", {
+    console.log(req.session.username, "registration success");
+    res.render("index.ejs", {
       title: "Index",
       username: req.signedCookies.username,
+      counter: " " + count, // активные пользователи
     });
   });
 
@@ -131,8 +145,8 @@ router
     if (obj) {
       const hash = await bcrypt.hashSync(password, obj.salt);
       if (hash === obj.password) {
-        req.session.username = obj.name;
-        console.log(req.session.username, req.sessionID);
+        req.session.login = obj.name;
+        console.log(req.session.username, "login");
         // res.cookie("username", obj.name, {
         //   maxAge: 3600 * 24, // 1 сутки
         //   signed: true,
@@ -148,12 +162,8 @@ router.route("/logout").get((req, res) => {
     title: "Index",
     news: news,
     username: req.signedCookies.username,
+    counter: " " + count, // активные пользователи
   });
 });
-/*
-  /news GET - получить все новости
-  /news POST - создание новости
-  /news/id GET получить новость по id
-  /news/id DELETE удаление новости по id
-  */
+
 export default router;
