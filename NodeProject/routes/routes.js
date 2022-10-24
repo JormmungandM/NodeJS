@@ -82,10 +82,11 @@ router
 
 router.route("/news")
   .get((req, res) => {
+    console.log(req.cookies)
     res.render("news.ejs", {
       title: "News",
       news: selectNews,
-      username: req.signedCookies.username,
+      username: req.cookies.username,
       counter: " " + count, // активные пользователи
     });
   })
@@ -103,10 +104,27 @@ router.route("/news")
     res.redirect("/news")
   });
 
+  router.route("/news/add")
+  .post((req, res) => {
+    const {TitleNews,TextNews} = req.body;   // получаем данные с сайта 
+    let biggest;
+    if (news.length !== 0) {                    // создаем новый индекс, который больше предыдущего 
+      biggest = news.reduce((prev, current) =>
+        prev.id > current.id ? prev : current
+      );
+    }
+    //  Добавляем новость в массив
+    news.push({
+      id: biggest ? biggest.id + 1 : 1,
+      title: TitleNews,
+      text: TextNews,
+    });
+    res.redirect("/news")
+  });
+
   function byField(field) {
     return (a, b) => a[field] > b[field] ? 1 : -1;
   }
-
   
   // Сортировка массива по title
   router.route("/news/sort")
@@ -126,12 +144,10 @@ router
     });
   })
   .post(add_user, (req, res) => {
-    console.log(req.session.username, "registration success");
-    res.render("index.ejs", {
-      title: "Index",
-      username: req.signedCookies.username,
-      counter: " " + count, // активные пользователи
-    });
+    //console.log(req.session.username);
+    //console.log(req.body);
+    //console.log(req.cookies.username)
+    res.redirect("/register");
   });
 
 router
@@ -157,7 +173,7 @@ router
   });
 
 router.route("/logout").get((req, res) => {
-  if (req.signedCookies.username) res.clearCookie("username");
+  if (req.cookies.username) res.clearCookie("username");
   res.render("index", {
     title: "Index",
     news: news,

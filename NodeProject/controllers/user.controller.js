@@ -14,10 +14,9 @@ export const add_user = async (req, res, next) => {
       }
 
       const salt = await bcrypt.genSalt(10);
-      console.log(`salt: ${salt}}`);
       const hash = await bcrypt.hashSync(password, salt);
-      console.log(`hash: ${hash}`);
-      console.log(`salt: ${salt}`);
+      //console.log(`hash: ${hash}`);
+      //console.log(`salt: ${salt}`);
       users.push({
         id: biggest ? biggest.id + 1 : 1,
         name: name,
@@ -28,10 +27,7 @@ export const add_user = async (req, res, next) => {
         password: hash,
       });
 
-      res.cookie("username", name, {
-        maxAge: 3600 * 24, // 1 сутки
-        signed: true,
-      });
+      res.cookie("username", name);
     }
   }
   next();

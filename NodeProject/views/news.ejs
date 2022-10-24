@@ -150,7 +150,7 @@
           </li>
           <li class="divider"></li>
           <li>
-            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+            <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
           </li>
         </ul>
       </li>
@@ -173,17 +173,9 @@
 
       <div class="row">
         <div class="col-lg-12">
-
-          <form action="/add" method="POST">
+          <% if (username != null) { %> <!-- Условие, если пользователь неавторизованн то добавление не показывается -->
+          <form action="/news/add" method="POST">
             <div class="form-group" style="width: 50%;">
-              <input
-                type="text"
-                name="IdNews"
-                class="form-control"
-                id="exampleInputLogin"
-                placeholder="Enter news id"
-              />
-              <br/>
               <input
               type="text"
               name="TitleNews"
@@ -204,7 +196,7 @@
               <button type="submit" class="btn btn-primary">Add news</button>
             </div>
           </form>
-
+          <% } %>
           <form action="/news/search" method="POST">
             <div class="form-group" style="width: 50%; float: left; padding-right: 10px;">
               <input
