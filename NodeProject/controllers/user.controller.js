@@ -1,6 +1,8 @@
 import users from "../models/users.js";
 import bcrypt from "bcryptjs";
 
+import { body, validationResult } from 'express-validator';
+
 export const add_user = async (req, res, next) => {
   if (req.body) {
     const { name, surname, login, email, password, repeat_password } = req.body;

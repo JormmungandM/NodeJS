@@ -7,6 +7,7 @@ import bcrypt from "bcryptjs";
 import users from "../models/users.js";
 import { appendFile } from "fs";
 import count from "../app.js";
+import { body, validationResult } from 'express-validator';
 
 const __dirname = path.resolve();
 const router = Router();
@@ -105,7 +106,10 @@ router.route("/news")
   });
 
   router.route("/news/add")
-  .post((req, res) => {
+  .post(
+    body('TitleNews').isLength({ min: 16 }),  // проверка на кол-во символов
+    body('TextNews').isLength({ min: 120 }),  // проверка на кол-во символов
+    (req, res) => {
     const {TitleNews,TextNews} = req.body;   // получаем данные с сайта 
     let biggest;
     if (news.length !== 0) {                    // создаем новый индекс, который больше предыдущего 
@@ -143,7 +147,24 @@ router
       counter: " " + count, // активные пользователи
     });
   })
-  .post(add_user, (req, res) => {
+  .post(
+  add_user,
+  // Валидация для регистрация 
+  body('email').custom(value => {  // проверка почты на занятость
+    return users.findUserByEmail(value).then(user => {
+      if (user) {
+        return Promise.reject('Этот электронный адрес уже занят');
+      }
+    });
+  }),
+  body('password').isLength({ min: 8 }), // проверка поля password
+  body('repeat_password').custom((value, { req }) => { // проверка поля repeat_password
+    if (value !== req.body.password) {
+      throw new Error('Подтверждение пароля не соответствует паролю');
+    }
+    return true;
+  }), 
+  (req, res) => {
     //console.log(req.session.username);
     //console.log(req.body);
     //console.log(req.cookies.username)
@@ -152,7 +173,8 @@ router
 
 router
   .route("/login")
-  .get((req, res) => {
+  .get(  
+  (req, res) => {
     res.render("login", { title: "Login" });
   })
   .post(async (req, res) => {
