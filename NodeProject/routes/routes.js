@@ -5,8 +5,12 @@ import methodOverride from "method-override";
 import { add_user } from "../controllers/user.controller.js";
 import bcrypt from "bcryptjs";
 import users from "../models/users.js";
+import { appendFile } from "fs";
+import count from "../app.js";
+
 const __dirname = path.resolve();
 const router = Router();
+
 router.use(methodOverride("X-HTTP-Method")); //          Microsoft
 router.use(methodOverride("X-HTTP-Method-Override")); // Google/GData
 router.use(methodOverride("X-Method-Override")); //      IBM
@@ -20,23 +24,37 @@ router.use(
     }
   })
 );
+
+
+
 router
   .route("/")
   .get((req, res) => {
     //res.sendFile(path.resolve(__dirname, "views", "index.html"));
     let username = undefined;
-    // if (req.cookies && req.cookies.username) {
-    //   username = req.cookies.username;
-    // }
+
     res.render("index.ejs", {
       title: "My Express (ejs)",
       news: news,
+      counter: " " + count, // активные пользователи
       username: req.signedCookies.username,
     });
   })
   .post((req, res) => {
     res.send("<h1>Express POST REQUEST</h1>");
   });
+
+
+  //add hbs to nav menu set title and message
+  router
+  .route("/handlebars")
+  .get((req,res, next)  => {
+    res.render("handlebars.hbs", {
+      message: "This is HandleBars",
+      username: req.signedCookies.username,
+    });
+  })
+
 
 router
   .route("/news")
