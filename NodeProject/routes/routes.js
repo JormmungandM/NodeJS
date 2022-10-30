@@ -8,9 +8,25 @@ import users from "../models/users.js";
 import { appendFile } from "fs";
 import count from "../app.js";
 import { body, validationResult } from 'express-validator';
+import multer from 'multer';
 
 const __dirname = path.resolve();
 const router = Router();
+var NewsPhotoName;
+
+const storage = multer.diskStorage({
+  destination: (req,file, cb)=>{
+    cb(null,'Img')
+  },
+  filename: (req, file, cb)=>{
+    NewsPhotoName = file.originalname
+    cb(null, Date.now() + path.extname(file.originalname))
+  }
+})
+const upload = multer({storage: storage});
+
+
+
 let selectNews = news; // сохраняем массив с новостями
 
 
@@ -109,6 +125,7 @@ router.route("/news")
   .post(
     body('TitleNews').isLength({ min: 16 }),  // проверка на кол-во символов
     body('TextNews').isLength({ min: 120 }),  // проверка на кол-во символов
+    upload.single('PhotoNews'),
     (req, res) => {
     const {TitleNews,TextNews} = req.body;   // получаем данные с сайта 
     let biggest;
@@ -122,6 +139,7 @@ router.route("/news")
       id: biggest ? biggest.id + 1 : 1,
       title: TitleNews,
       text: TextNews,
+      img: "http://localhost:3000/img/" + NewsPhotoName //сохраняю прямой путь к картинке
     });
     res.redirect("/news")
   });

@@ -3,6 +3,6 @@ const news = [
   { id: 34, title: "News 3", text: "Text for News 2" },
   { id: 35, title: "News 2", text: "Text for News 3" },
   { id: 543, title: "News 6", text: "Text for News 4" },
-  { id: 5, title: "News 4", text: "Text for News 5" },
+  { id: 5, title: "News 4", text: "Text for News 5", img: "http://localhost:3000/img/16480.png" }, 
 ];
 export default news;

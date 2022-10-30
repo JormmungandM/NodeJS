@@ -29,11 +29,14 @@ app.use(
   })
 );
 
+
+
 app.engine("ejs", ejsMate);
 app.set("views", path.resolve(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/img', express.static('./img'));
 app.use(express.static(path.resolve(__dirname, "public"))); //middleware подключение статических данных (js, css, pictures)
 app.use(router);
 
