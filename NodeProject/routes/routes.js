@@ -96,6 +96,32 @@ router
   })
 
 
+  // Страница обратной связи
+  router
+  .route("/feedback")
+  .get((req,res, next)  => {
+    res.render("feedback.ejs", {
+      title: "feedback",
+      username: req.signedCookies.username,
+      counter: " " + count, // активные пользователи
+    });
+  })
+  .post((req, res) => {
+    const {email, message} = req.body;   // получаем данные с сайта
+
+    const names = users.map(el => el.name);           // берем имена пользователей
+    var index = names.indexOf(req.cookies.username)   // берем имя авторизированного пользователя
+
+    if(index != null){                                                      // проверка если пользователь авторизован
+      console.log("Id: " + users[index].id + ", " + email +", " + message)  // Выводи id + данные
+    }
+    else{                       // Если нет то просто данные формы
+      console.log(req.body)     
+    }  
+  
+    res.redirect("/")
+  });
+
 
 router.route("/news")
   .get((req, res) => {
@@ -183,9 +209,9 @@ router
     return true;
   }), 
   (req, res) => {
-    //console.log(req.session.username);
-    //console.log(req.body);
-    //console.log(req.cookies.username)
+    console.log(req.session.username);
+    console.log(users);
+    console.log(req.cookies.username)
     res.redirect("/register");
   });
 
