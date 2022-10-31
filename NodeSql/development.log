@@ -1,0 +1,6 @@
+
+
+[31.10.2022, 18:8:25] - file name: 'news_routes.js', route: '/news', type request: 'GET', ip user: '::ffff:127.0.0.1'
+[31.10.2022, 18:8:26] - file name: 'news_routes.js', route: '/news' , type request: 'POST', ip user: '::ffff:127.0.0.1'
+[31.10.2022, 18:8:27] - file name: 'news_routes.js', route: '/news' , type request: 'DELETE', ip user: '::ffff:127.0.0.1'
+[31.10.2022, 18:8:45] - file name: 'news_routes.js', route: '/news' , type request: 'POST', ip user: '::ffff:127.0.0.1'
