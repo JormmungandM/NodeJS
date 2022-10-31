@@ -3,6 +3,8 @@ import config from "./config/config.js";
 import router_news from "./routes/news_routes.js";
 import router_user from "./routes/user_routes.js";
 import logger from 'logger'
+import cors from 'cors';  // подключаю модуль corse 'http://expressjs.com/en/resources/middleware/cors.html'
+
 
 export var MyLogger = logger.createLogger('development.log'); // создаем logger и сохраняем логи в файл 'development.log'
 MyLogger.format = function(level, date, message) {            // меняю формат логов
@@ -17,6 +19,7 @@ MyLogger.format = function(level, date, message) {            // меняю фо
   + message;  // сообщение передаваемое в MyLogger.info()
 };
 
+app.use(cors()) // Включаю corse в проект
 
 const app = express();
 app.use(express.json());
