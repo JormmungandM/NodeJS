@@ -1,14 +1,10 @@
 
 POST http://localhost:3000/user
 Content-Type: application/json
+
 {
-
     "name" : "john",
-
     "email" : "john@gmail.com",
-
     "password" : "12345",
-
     "repeat_password" : "12345"
-
 }

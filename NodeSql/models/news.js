@@ -1,4 +1,4 @@
-import { connection_mysql } from "../config/db_connection.js";
+import  connection_mysql  from "../config/db_connection.js";
 //get all news
 export const find_all = () => {
   return new Promise((resolve, reject) => {

@@ -1,11 +1,31 @@
-import { Router } from "express";
-import { addUserMiddleware } from "../controllers/user_controller.js";
-import { MyLogger } from "../app.js";
+import { Router } from "express"
+import { addUserMiddleware } from "../controllers/user_controller.js"
+import { isEmailValid, isNameValid, isPasswordValid } from "../features/userValidation.js"
+import addValidatorMiddleware from "../features/validator.js"
 
-const router_user = Router();
+const router = Router()
 
-router_user.route("/user").post(addUserMiddleware, (req, res) => {
-    MyLogger.info("file name: 'user_routes.js', route: '/user', type request: 'POST', ip user: " + "'" + req.ip + "'" )
-});
+router.route("/user")
+   .post(
+      addValidatorMiddleware,
+      isNameValid,
+      isEmailValid,
+      isPasswordValid,
+      addUserMiddleware,
+      (req, res) => {
+         if (req.body.validationErrors) {
+            if (req.body.validationErrors.length !== 0) {
+               return res.json({
+                  error: true,
+                  message: req.body.validationErrors
+               })
+            }
+         }
 
-export default router_user;
+         return res.json({
+            error: false,
+            message: "User added successfully"
+         })
+      })
+
+export default router

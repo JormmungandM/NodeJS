@@ -1,0 +1,14 @@
+GET http://localhost:3000/categories
+
+### 
+
+POST http://localhost:3000/categories
+Content-Type: application/json
+
+{
+    "idNews" : 1,
+    "idCaegories" : 1,
+}
+
+### 
+DELETE http://localhost:3000/categories
