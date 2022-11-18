@@ -191,24 +191,7 @@ router
       counter: " " + count, // активные пользователи
     });
   })
-  .post(
-  add_user,
-  // Валидация для регистрация 
-  body('email').custom(value => {  // проверка почты на занятость
-    return users.findUserByEmail(value).then(user => {
-      if (user) {
-        return Promise.reject('Этот электронный адрес уже занят');
-      }
-    });
-  }),
-  body('password').isLength({ min: 8 }), // проверка поля password
-  body('repeat_password').custom((value, { req }) => { // проверка поля repeat_password
-    if (value !== req.body.password) {
-      throw new Error('Подтверждение пароля не соответствует паролю');
-    }
-    return true;
-  }), 
-  (req, res) => {
+  .post(add_user, (req, res) => {
     console.log(req.session.username);
     console.log(users);
     console.log(req.cookies.username)

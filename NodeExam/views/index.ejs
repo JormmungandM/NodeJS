@@ -13,20 +13,86 @@
 <body>
     <div style="text-align: center; margin:2% 0">
         <h1>Автомобільний каталог</h1>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Додати автомобіль
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background-color:transparent; box-shadow: none; max-height:1000px ;">
+              
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Додати автомобіль</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <form method="POST" action="/add" >    
+                      <div class="row">
+                        <div class="input-field col s6">
+                          <input id="N" type="text" class="validate" name="CarName">
+                          <label for="N">Name</label>
+                        </div>
+                        <div class="input-field col s6">
+                          <input id="Cr" type="text" class="validate" name="CarColor">
+                          <label for="C">Color Name</label>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="input-field col s6">
+                          <input id="M" type="text" class="validate" name="CarManufacturer">
+                          <label for="M">Manufacturer</label>
+                        </div>
+                        <div class="input-field col s6">
+                          <input id="Y" type="number" class="validate" name="CarYear">
+                          <label for="Y">Year</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s6">
+                          <input id="V" type="text" class="validate" name="CarVolume">
+                          <label for="V">Volume</label>
+                        </div>
+                        <div class="input-field col s6">
+                          <input id="P" type="number" class="validate" name="CarPrice">
+                          <label for="P">Price</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <input id="D" type="text" class="validate" name="CarDescription">
+                          <label for="D">Description</label>
+                        </div>
+                      </div>
+                        
+                    </div>
+                    <div class="modal-body" style="width: 100%;">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="float:left">Закрити</button>
+                        <button type="submit" class="btn btn-primary" style="float:right">Зберегти</button>
+                    </div>
+                  </form>
+                  </div>
+                </div>
+              
+            </div>
     </div>
-    <form>
+    <form action="/" method="post"> 
         <div class="row" style="width: 80%; text-align: center; margin: 5% auto 2% auto">
             <div class="row">
                 <div class="col">
-                    <select class="browser-default">
-                        <option value="" disabled selected>Виробник</option>
+                    <select class="browser-default" name="selectManufacturers">
+                        <option value="1" disabled selected>Виробник</option>
+
                         <% manufacturers.forEach((item) => {%>
                             <option value="<%=item%>"><%=item%></option>
                         <% })%>
+
                       </select>
                 </div>
                 <div class="col">
-                    <select class="browser-default">
+                    <select class="browser-default" name="selectYears">
                         <option value="" disabled selected>Рік випуску</option>
                         <% years.forEach((item) => {%>
                             <option value="<%=item%>"><%=item%></option>
@@ -34,7 +100,7 @@
                       </select>
                 </div>
                 <div class="col">
-                    <select class="browser-default">
+                    <select class="browser-default" name="selectColors">
                         <option value="" disabled selected>Кольор</option>
                         <% colors.forEach((item) => {%>
                             <option value="<%=item%>"><%=item%></option>
@@ -42,7 +108,7 @@
                       </select>
                 </div>
                 <div class="col">
-                    <select class="browser-default">
+                    <select class="browser-default" name="selectVolumes">
                         <option value="" disabled selected>Об'єм</option>
                         <% volumes.forEach((item) => {%>
                             <option value="<%=item%>"><%=item%></option>
@@ -54,21 +120,21 @@
             <div class="row">
                 <div class="col">
                         <div class="input-field col s6">
-                          <input id="first_name" type="number" class="validate">
+                          <input id="first_name" type="number" class="validate" name="priceOne">
                           <label for="first_name">Ціна від</label>
                         </div>
                         <div class="input-field col s6">
-                          <input id="last_name" type="number" class="validate">
+                          <input id="last_name" type="number" class="validate" name="priceTwo">
                           <label for="last_name">до</label>
                         </div>
                 </div>
                 <div class="col-12">
-                    <button class="waves-effect waves-light btn">Принять</button>
+                    <button type="submit" class="waves-effect waves-light btn">Прийняти</button>
                 </div>
             </div>
-        </div
-    </form>
-    <div style="width: 70%; margin: 0 auto;">
+          </div>
+      </form>
+    <div style="width: 80%; margin: 0 auto; font-size: 20px;">
         <table class="table table-bordered">
             <thead>
               <tr>
@@ -79,6 +145,8 @@
                 <th>Price</th>
                 <th>Color</th>
                 <th>Description</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -91,6 +159,80 @@
                 <td><%= item.price %></td>
                 <td><%= item.color %></td>
                 <td><%= item.description %></td>
+                <td> 
+             <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal<%=item.id%>">
+              Edit
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="editModal<%=item.id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background-color:transparent; box-shadow: none; max-height:1000px ;">
+              <form action="/edit"  method="post">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Редагувати автомобіль</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        
+                      <div class="row">
+                        <div class="input-field col s6">
+                          <input id="carName" type="text" class="validate" name="CarName"  value="<%=item.name%>"></input>
+                          <label for="carName">Name</label>
+                        </div>
+                        <div class="input-field col s6">
+                          <input id="carColor" type="text" class="validate" name="CarColor" value="<%=item.color%>">
+                          <label for="carColor">Color Name</label>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="input-field col s6">
+                          <input id="carManufacturer" type="text" class="validate" name="CarManufacturer" value="<%= item.manufacturer %>">
+                          <label for="carManufacturer">Manufacturer</label>
+                        </div>
+                        <div class="input-field col s6">
+                          <input id="carYear" type="number" class="validate" name="CarYear" value="<%= item.year %>">
+                          <label for="carYear">Year</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s6">
+                          <input id="carVolume" type="text" class="validate" name="CarVolume" value="<%= item.volume %>">
+                          <label for="carVolume">Volume</label>
+                        </div>
+                        <div class="input-field col s6">
+                          <input id="carPrice" type="number" class="validate" name="CarPrice" value="<%= item.price %>">
+                          <label for="carPrice">Price</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <input id="carDescription" type="text" class="validate" name="CarDescription" value="<%= item.description %>">
+                          <label for="carDescription">Description</label>
+                        </div>
+                      </div>
+                        
+                    </div>
+                    <div class="modal-body" style="width: 100%;">
+                        <input hidden name="id" value="<%= item.id %>"/>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="float:left">Закрити</button>
+                        <button type="submit" class="btn btn-primary" style="float:right">Зберегти</button>
+                    </div>
+                  </div>
+                </form>
+                </div>
+              
+
+                </td>
+                <td>
+                  <form action="/delete" method="post">
+                    <input hidden name="id" value="<%= item.id %>"/>
+                    <button type="submit" class="btn btn-primary" style="background-color: rgb(219, 48, 48);">
+                      -
+                    </button>
+                  </form>
+                </td>
               </tr>
               <% })%>
             </tbody>
